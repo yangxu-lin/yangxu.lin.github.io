@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Rivera — Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B2430;
+    --paper: #F7F5F0;
+    --slate: #42526B;
+    --ochre: #B8860B;
+    --ochre-bright: #D4A017;
+    --white: #FFFFFF;
+    --rule: #DAD5C7;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  a { color: var(--ink); text-decoration: none; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--ochre); outline-offset: 3px; }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    padding: 88px 0 56px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .name {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(2.1rem, 5vw, 2.9rem);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .tagline {
+    margin-top: 10px;
+    font-size: 1.08rem;
+    color: var(--slate);
+    max-width: 540px;
+  }
+
+  .tagline .field { color: var(--ink); font-weight: 500; }
+
+  .linkrow {
+    margin-top: 28px;
+    font-family: var(--mono);
+    font-size: 0.86rem;
+    color: var(--slate);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0;
+  }
+
+  .linkrow a {
+    color: var(--slate);
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .linkrow a:hover {
+    color: var(--ochre);
+    border-bottom-color: var(--ochre);
+  }
+
+  .linkrow .sep {
+    margin: 0 10px;
+    color: var(--rule);
+  }
+
+  .prompt {
+    color: var(--ochre);
+    margin-right: 4px;
+  }
+
+  /* ---------- Sections ---------- */
+  section {
+    padding: 56px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ochre);
+    letter-spacing: 0.02em;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.55rem;
+    margin-top: 6px;
+    margin-bottom: 22px;
+    color: var(--ink);
+  }
+
+  .lede {
+    color: var(--slate);
+    max-width: 600px;
+  }
+
+  .lede + .lede { margin-top: 14px; }
+
+  /* ---------- Research items ---------- */
+  .paper {
+    padding: 22px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .paper:first-of-type { border-top: none; padding-top: 0; }
+
+  .paper-status {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--slate);
+    background: rgba(184,134,11,0.1);
+    border: 1px solid rgba(184,134,11,0.3);
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .paper-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.12rem;
+    margin: 10px 0 4px;
+    color: var(--ink);
+  }
+
+  .paper-authors {
+    font-size: 0.92rem;
+    color: var(--slate);
+    margin-bottom: 10px;
+  }
+
+  .paper-toggle {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ochre);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .paper-toggle:hover { color: var(--ink); }
+
+  .paper-toggle .chevron {
+    display: inline-block;
+    transition: transform 0.2s ease;
+    font-size: 0.7rem;
+  }
+
+  .paper-toggle.open .chevron { transform: rotate(90deg); }
+
+  .paper-abstract {
+    font-size: 0.95rem;
+    color: var(--slate);
+    margin-top: 12px;
+    max-width: 600px;
+    display: none;
+    line-height: 1.65;
+  }
+
+  .paper-abstract.show { display: block; }
+
+  .paper-links {
+    margin-top: 10px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+  }
+
+  .paper-links a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+  .paper-links a:hover { border-bottom-color: var(--ochre); color: var(--ochre); }
+
+  /* ---------- Experience (RA work) ---------- */
+  .role {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .role:first-of-type { border-top: none; padding-top: 0; }
+
+  .role-period {
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--slate);
+    padding-top: 2px;
+  }
+
+  .role-title {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .role-org {
+    color: var(--slate);
+    font-size: 0.95rem;
+    margin-top: 2px;
+  }
+
+  .role-desc {
+    margin-top: 8px;
+    font-size: 0.93rem;
+    color: var(--slate);
+  }
+
+  @media (max-width: 540px) {
+    .role { grid-template-columns: 1fr; gap: 4px; }
+  }
+
+  /* ---------- Skills / tools ---------- */
+  .toollist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .toolchip {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--slate);
+    border: 1px solid var(--rule);
+    padding: 5px 12px;
+    border-radius: 3px;
+    background: var(--white);
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    padding: 40px 0 80px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--slate);
+  }
+
+  footer a { color: var(--slate); border-bottom: 1px solid var(--rule); }
+  footer a:hover { color: var(--ochre); border-bottom-color: var(--ochre); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="name">Alex Rivera</div>
+    <p class="tagline">
+      Predoctoral research fellow studying <span class="field">labor economics and education policy</span>.
+      Building toward a PhD in economics, starting Fall 2027.
+    </p>
+    <div class="linkrow">
+      <span class="prompt">~$</span>
+      <a href="mailto:alex.rivera@example.edu">email</a>
+      <span class="sep">·</span>
+      <a href="#cv">cv</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/" target="_blank" rel="noopener">github</a>
+      <span class="sep">·</span>
+      <a href="https://scholar.google.com/" target="_blank" rel="noopener">scholar</a>
+      <span class="sep">·</span>
+      <a href="https://linkedin.com/" target="_blank" rel="noopener">linkedin</a>
+    </div>
+  </header>
+
+  <section id="about">
+    <span class="tag">// about</span>
+    <h2>About</h2>
+    <p class="lede">
+      I'm a predoctoral research fellow at the Policy Lab for Education and Labor Markets, where I work with
+      Prof. Dana Whitfield and Prof. Marcus Lee on causal inference projects related to school choice and
+      early-career labor outcomes. Before this, I completed my BA in Economics and Statistics at Aldridge College,
+      where I wrote my honors thesis on apprenticeship program design.
+    </p>
+    <p class="lede">
+      My research interests sit at the intersection of labor economics, education policy, and applied
+      econometrics — I'm especially drawn to questions where a well-identified empirical design can speak
+      directly to a live policy debate.
+    </p>
+  </section>
+
+  <section id="research">
+    <span class="tag">// 01 research</span>
+    <h2>Research</h2>
+
+    <div class="paper">
+      <span class="paper-status">Working paper</span>
+      <div class="paper-title">Apprenticeship Exposure and Early-Career Wage Trajectories</div>
+      <div class="paper-authors">with Dana Whitfield and Marcus Lee</div>
+      <button class="paper-toggle" data-target="abstract-1" aria-expanded="false">
+        <span class="chevron">▸</span> abstract
+      </button>
+      <p class="paper-abstract" id="abstract-1">
+        Using administrative wage records linked to a state apprenticeship registry, we estimate the effect of
+        apprenticeship participation on wage growth over the first decade of a worker's career. We exploit
+        variation in program capacity across cohorts to address selection into apprenticeship enrollment, finding
+        that participants experience steeper early wage growth relative to matched non-participants, with effects
+        concentrated among workers without a four-year degree.
+      </p>
+      <div class="paper-links">
+        <a href="#">draft (PDF)</a>
+      </div>
+    </div>
+
+    <div class="paper">
+      <span class="paper-status">In progress</span>
+      <div class="paper-title">School Choice and Sibling Spillovers: Evidence from a Centralized Lottery</div>
+      <div class="paper-authors">solo-authored</div>
+      <button class="paper-toggle" data-target="abstract-2" aria-expanded="false">
+        <span class="chevron">▸</span> abstract
+      </button>
+      <p class="paper-abstract" id="abstract-2">
+        I study whether a sibling's assignment to an oversubscribed school affects younger siblings' later academic
+        outcomes, using lottery-based variation from a centralized enrollment system. Preliminary results suggest
+        modest positive spillovers on attendance and test scores, consistent with shared information or
+        within-family peer effects.
+      </p>
+    </div>
+
+    <div class="paper">
+      <span class="paper-status">Undergraduate thesis</span>
+      <div class="paper-title">Designing for Persistence: Completion Rates Across Apprenticeship Program Structures</div>
+      <div class="paper-authors">Aldridge College, advised by Prof. Helen Ostrander</div>
+      <button class="paper-toggle" data-target="abstract-3" aria-expanded="false">
+        <span class="chevron">▸</span> abstract
+      </button>
+      <p class="paper-abstract" id="abstract-3">
+        I document substantial heterogeneity in completion rates across apprenticeship program structures and test
+        which design features — wage progression schedules, mentor assignment, and credential stacking — best
+        predict persistence, using program-level data from three state registries.
+      </p>
+      <div class="paper-links">
+        <a href="#">thesis (PDF)</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <span class="tag">// 02 experience</span>
+    <h2>Research experience</h2>
+
+    <div class="role">
+      <div class="role-period">2024 — present</div>
+      <div>
+        <div class="role-title">Predoctoral Research Fellow</div>
+        <div class="role-org">Policy Lab for Education and Labor Markets</div>
+        <div class="role-desc">
+          Lead RA on two projects studying apprenticeships and school choice. Manage data cleaning, identification
+          strategy, and replication pipelines in Stata and R; co-developed an internal package for linking
+          administrative datasets across state agencies.
+        </div>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="role-period">Summer 2023</div>
+      <div>
+        <div class="role-title">Research Intern</div>
+        <div class="role-org">Bureau of Labor and Workforce Statistics</div>
+        <div class="role-desc">
+          Supported a team analyzing regional labor market tightness, building dashboards and short policy briefs
+          used in internal quarterly reports.
+        </div>
+      </div>
+    </div>
+
+    <div class="role">
+      <div class="role-period">2021 — 2024</div>
+      <div>
+        <div class="role-title">Undergraduate Research Assistant</div>
+        <div class="role-org">Aldridge College, Department of Economics</div>
+        <div class="role-desc">
+          Assisted Prof. Helen Ostrander with literature review, data collection, and figure production for a
+          project on community college transfer pathways.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="toolkit">
+    <span class="tag">// 03 toolkit</span>
+    <h2>Toolkit</h2>
+    <div class="toollist">
+      <span class="toolchip">Stata</span>
+      <span class="toolchip">R</span>
+      <span class="toolchip">Python</span>
+      <span class="toolchip">SQL</span>
+      <span class="toolchip">LaTeX</span>
+      <span class="toolchip">Causal inference</span>
+      <span class="toolchip">Difference-in-differences</span>
+      <span class="toolchip">Regression discontinuity</span>
+    </div>
+  </section>
+
+  <section id="cv">
+    <span class="tag">// cv</span>
+    <h2>CV</h2>
+    <p class="lede">
+      Full CV available as a PDF, including coursework, references, and a complete list of RA projects.
+    </p>
+    <div class="paper-links" style="margin-top: 16px;">
+      <a href="#">download CV (PDF)</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>Last updated June 2026 · <a href="mailto:alex.rivera@example.edu">alex.rivera@example.edu</a></p>
+  </footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.paper-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var target = document.getElementById(btn.dataset.target);
+      var isOpen = target.classList.toggle('show');
+      btn.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen);
+    });
+  });
+</script>
+
+</body>
+</html>
